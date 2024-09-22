@@ -33,6 +33,7 @@ export const todoSlice = createSlice({
     },
     addTasks: (state, action) => {
       state.tasks = [...state.tasks, action.payload];
+      state.inputValue = '';
     },
     setInputValue: (state, action) => {
       state.inputValue = action.payload;
