@@ -11,7 +11,9 @@ const AddTodo: React.FC = () => {
   const addNewTasks = (e: any) => {
     e.preventDefault();
     const newTask = { id: v1(), title: value, isDone: false };
-    dispatch(addTasks(newTask));
+    if (value.trim() !== '') {
+      dispatch(addTasks(newTask));
+    }
   };
   const onChangetInput = (e: any) => {
     dispatch(setInputValue(e.target.value));
