@@ -2,6 +2,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeTasks, setChecked } from '../redux/slice/todoSlice';
+import axios from 'axios';
 
 interface TodoItemProps {
   text: string;
@@ -12,10 +13,17 @@ interface TodoItemProps {
 const TodoItem: React.FC<TodoItemProps> = ({ id, text, completed }) => {
   const dispatch = useDispatch();
 
-  const removeTask = () => {
-    dispatch(removeTasks(id));
+  const removeTask = async () => {
+    try {
+      await axios.delete(`https://66f035def2a8bce81be55030.mockapi.io/tasks/${id}`);
+      dispatch(removeTasks(id));
+    } catch (error) {}
   };
-  const toggleTask = () => {
+  const toggleTask = async () => {
+    try {
+      const updatedTask = { isDone: !completed };
+      await axios.put(`https://66f035def2a8bce81be55030.mockapi.io/tasks/${id}`, updatedTask);
+    } catch (error) {}
     dispatch(setChecked(id));
   };
   return (

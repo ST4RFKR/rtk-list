@@ -4,7 +4,6 @@ import { setFilter } from '../redux/slice/todoSlice';
 
 const Filters = () => {
   const dispatch = useDispatch();
-  const tasks = useSelector((state: any) => state.todo.tasks);
   const filter = useSelector((state: any) => state.todo.filter);
 
   return (
