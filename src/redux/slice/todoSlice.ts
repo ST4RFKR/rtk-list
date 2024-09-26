@@ -4,7 +4,7 @@ import axios from 'axios';
 import { v1 } from 'uuid';
 
 interface Task {
-  id: number;
+  id: number | string;
   title: string;
   isDone: boolean;
 }
@@ -13,9 +13,13 @@ export const fetchTasks = createAsyncThunk('todo/fetchTasks', async () => {
   return response.data;
 });
 export const removeTaskAction = createAsyncThunk('todo/removeTasks', async (id: number) => {
-  const response = await axios.delete(`https://66f035def2a8bce81be55030.mockapi.io/tasks/${id}`);
+  await axios.delete(`https://66f035def2a8bce81be55030.mockapi.io/tasks/${id}`);
   return id;
 });
+// export const addTaskAction = createAsyncThunk<Task,Task>('todo/addTasks', async (newTask) => {
+//   const response = await axios.post('https://66f035def2a8bce81be55030.mockapi.io/tasks', newTask);
+//   return response.data;
+// });
 
 const initialState = {
   tasks: [] as Task[],
@@ -65,6 +69,10 @@ export const todoSlice = createSlice({
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
       state.status = 'success';
     });
+    // builder.addCase(addTaskAction.fulfilled, (state: any, action) => {
+    //   state.tasks = action.payload;
+    //   state.inputValue = '';
+    // });
   },
 });
 

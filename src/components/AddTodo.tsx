@@ -13,10 +13,9 @@ const AddTodo: React.FC = () => {
 
   const addNewTasks = async (e: any) => {
     e.preventDefault();
-
     const newTask = { id: v1(), title: value.trim(), isDone: false };
     if (value.length === 0) return;
-
+    // dispatch(addTaskAction(newTask));
     try {
       await axios.post('https://66f035def2a8bce81be55030.mockapi.io/tasks', newTask);
       dispatch(fetchTasks());
@@ -33,7 +32,13 @@ const AddTodo: React.FC = () => {
   return (
     <form className="form">
       <div className="form__wrapper">
-        <input value={value} onChange={onChangetInput} type="text" placeholder={'Add task...'} />
+        <input
+          className="input"
+          value={value}
+          onChange={onChangetInput}
+          type="text"
+          placeholder={'Add task...'}
+        />
         {value && (
           <svg
             onClick={onClickClear} // Очистка по клику на иконку
