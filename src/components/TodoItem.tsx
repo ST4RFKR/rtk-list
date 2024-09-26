@@ -1,7 +1,7 @@
 // /src/components/TodoItem.tsx
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeTasks, setChecked } from '../redux/slice/todoSlice';
+import { removeTaskAction, setChecked } from '../redux/slice/todoSlice';
 import axios from 'axios';
 
 interface TodoItemProps {
@@ -11,13 +11,10 @@ interface TodoItemProps {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ id, text, completed }) => {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
-  const removeTask = async () => {
-    try {
-      await axios.delete(`https://66f035def2a8bce81be55030.mockapi.io/tasks/${id}`);
-      dispatch(removeTasks(id));
-    } catch (error) {}
+  const removeTask = () => {
+    dispatch(removeTaskAction(id));
   };
   const toggleTask = async () => {
     try {

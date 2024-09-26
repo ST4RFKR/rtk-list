@@ -122,3 +122,19 @@ button:hover {
   color: white;
   border: none;
 }
+.form__wrapper {
+  position: relative;
+}
+.clearIcon {
+  position: absolute;
+  top: 7px;
+  right: 77px;
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+.clearIcon:hover {
+  opacity: 1;
+}
