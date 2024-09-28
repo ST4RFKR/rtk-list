@@ -9,7 +9,7 @@ const TodoList: React.FC = () => {
   const dispatch: any = useDispatch();
   const todos = useSelector((state: any) => state.todo.tasks);
   const filter = useSelector((state: any) => state.todo.filter);
-  const status = useSelector((state: any) => state.todo.status);
+  const status = useSelector((state: any) => state.todo.statusFetch);
 
   const getTasks = () => {
     dispatch(fetchTasks());

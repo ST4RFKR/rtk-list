@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+
 import axios from 'axios';
-import { v1 } from 'uuid';
+import { newTaskType } from '../../components/AddTodo';
 
 interface Task {
   id: number | string;
@@ -16,16 +16,23 @@ export const removeTaskAction = createAsyncThunk('todo/removeTasks', async (id: 
   await axios.delete(`https://66f035def2a8bce81be55030.mockapi.io/tasks/${id}`);
   return id;
 });
-// export const addTaskAction = createAsyncThunk<Task,Task>('todo/addTasks', async (newTask) => {
-//   const response = await axios.post('https://66f035def2a8bce81be55030.mockapi.io/tasks', newTask);
-//   return response.data;
-// });
+export const addTaskAction = createAsyncThunk(
+  'users/fetchByIdStatus',
+  async (newTask: newTaskType) => {
+    const response = await axios.post('https://66f035def2a8bce81be55030.mockapi.io/tasks', newTask);
+    console.log(response.data);
+
+    return response.data;
+  },
+);
 
 const initialState = {
   tasks: [] as Task[],
   inputValue: '',
   filter: 'all',
-  status: 'idle',
+  statusFetch: 'idle',
+  statusRemove: 'idle',
+  statusAdd: 'idle',
 };
 
 export const todoSlice = createSlice({
@@ -35,10 +42,10 @@ export const todoSlice = createSlice({
     // removeTasks: (state, action) => {
     //   state.tasks = state.tasks.filter((obj: any) => obj.id !== action.payload);
     // },
-    addTasks: (state, action) => {
-      state.tasks = action.payload;
-      state.inputValue = '';
-    },
+    // addTasks: (state, action) => {
+    //   state.tasks = action.payload;
+    //   state.inputValue = '';
+    // },
     setInputValue: (state, action) => {
       console.log(state.inputValue);
 
@@ -56,27 +63,32 @@ export const todoSlice = createSlice({
     // setTasks: (state, action) => {
     //   state.tasks = action.payload;
     // },
+    resetStatusAdd: (state) => {
+      state.statusAdd = 'idle';
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTasks.pending, (state) => {
-      state.status = 'loading';
+      state.statusFetch = 'loading';
     });
     builder.addCase(fetchTasks.fulfilled, (state, action) => {
       state.tasks = action.payload;
-      state.status = 'success';
+      state.statusFetch = 'success';
     });
     builder.addCase(removeTaskAction.fulfilled, (state, action) => {
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-      state.status = 'success';
+      state.statusRemove = 'success';
     });
-    // builder.addCase(addTaskAction.fulfilled, (state: any, action) => {
-    //   state.tasks = action.payload;
-    //   state.inputValue = '';
-    // });
+    builder.addCase(addTaskAction.pending, (state) => {
+      state.statusAdd = 'loading';
+    });
+    builder.addCase(addTaskAction.fulfilled, (state, action) => {
+      state.tasks = [...state.tasks, action.payload];
+      state.statusAdd = 'success';
+    });
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { addTasks, setInputValue, setFilter, setChecked } = todoSlice.actions;
+export const { setInputValue, setFilter, setChecked, resetStatusAdd } = todoSlice.actions;
 
 export default todoSlice.reducer;
