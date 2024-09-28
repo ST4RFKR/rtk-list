@@ -47,8 +47,6 @@ export const todoSlice = createSlice({
     //   state.inputValue = '';
     // },
     setInputValue: (state, action) => {
-      console.log(state.inputValue);
-
       state.inputValue = action.payload;
     },
     setChecked: (state, action) => {

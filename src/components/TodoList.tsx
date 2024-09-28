@@ -11,13 +11,13 @@ const TodoList: React.FC = () => {
   const filter = useSelector((state: any) => state.todo.filter);
   const status = useSelector((state: any) => state.todo.statusFetch);
 
-  const getTasks = () => {
-    dispatch(fetchTasks());
-  };
+  // const getTasks = () => {
+
+  // };
 
   useEffect(() => {
-    getTasks();
-  }, []);
+    dispatch(fetchTasks());
+  }, [dispatch]);
 
   const filteredTodos = todos.filter((el: any) => {
     if (filter === 'active') return !el.isDone;

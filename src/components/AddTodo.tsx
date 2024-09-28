@@ -13,14 +13,13 @@ export type newTaskType = {
 const AddTodo: React.FC = () => {
   const value = useSelector((state: any) => state.todo.inputValue);
   const status = useSelector((state: any) => state.todo.statusAdd);
-  const [error, setError] = React.useState(false);
 
   const dispatch: any = useDispatch();
 
   const addNewTasks = async (e: any) => {
     e.preventDefault();
-    const id = v1();
-    const newTask: newTaskType = { id: id, title: value.trim(), isDone: false };
+
+    const newTask: newTaskType = { id: v1(), title: value.trim(), isDone: false };
     if (value.length === 0) return;
     dispatch(addTaskAction(newTask));
     dispatch(setInputValue(''));
@@ -44,7 +43,7 @@ const AddTodo: React.FC = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [status, dispatch]);
+  }, [status]);
 
   return (
     <form className="form">
@@ -58,7 +57,7 @@ const AddTodo: React.FC = () => {
         />
         {value && (
           <svg
-            onClick={onClickClear} // Очистка по клику на иконку
+            onClick={onClickClear}
             className="clearIcon"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg">
